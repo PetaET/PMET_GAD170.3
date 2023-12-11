@@ -5,6 +5,7 @@ using UnityEngine;
 public class Boxes : MonoBehaviour
 {
     public Player pRef;
+    public Gate gRef;
     public static int boxCollected = 0;
     public AudioSource boxSound;
 
@@ -73,6 +74,7 @@ public class Boxes : MonoBehaviour
             boxCollected++;
             fourCollected = true;
             pRef.BoxScores();                                                                       // Cross Reference to PLAYER script BoxScores() function
+            gRef.GateLocked();                                                                      // Activate locked gate
             if (boxSound != null && boxFour != null)
             {
                 boxSound.Play();
@@ -92,7 +94,7 @@ public class Boxes : MonoBehaviour
         boxOne.SetActive(true);
         boxTwo.SetActive(true);
         boxThree.SetActive(true);
-        boxFour.SetActive(true);
+        boxFour.SetActive(false);
 
         // Reset Variables
         boxCollected = 0;
@@ -104,12 +106,15 @@ public class Boxes : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-      
+        boxFour.SetActive(false);                                       // Make fourth box invisible until third collected
     }
 
     // Update is called once per frame
     void Update()
     {
-
+        if (boxCollected == 3)
+        {
+            boxFour.SetActive(true);                                                                // Make fourth box visible
+        }
     }
 }

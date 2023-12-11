@@ -54,10 +54,23 @@ public class Player : MonoBehaviour
         tries = 1;                                                              // Start with one as start is first attempt
     }
 
-    // Update is called once per frame
-    void Update()
+    private void OnTriggerEnter(Collider deadly)
     {
-        
+        if (deadly.CompareTag("roof"))
+        {
+            Debug.Log("Player ran out of oxygen and died");                         // Debug player died
+            PlayerDied();                                                           // Call PlayerDied() function
+        }
+        if (deadly.CompareTag("lava"))
+        {
+            Debug.Log("Player melted in the lava");                                 // Debug player died
+            PlayerDied();                                                           // Call PlayerDied() function
+        }
+        if (deadly.CompareTag("fourlocked"))
+        {
+            Debug.Log("GATE LOCKED! You DIED!");                                    // Debug gate locked and player dies
+            PlayerDied();                                                           // PLAYER script CROSS REFERENCE PlayerDied() called
+        }
     }
 
     /// <summary>
@@ -68,8 +81,8 @@ public class Player : MonoBehaviour
         // Boxes
         boxScore = Random.Range(0,31);                                              // Sets box score to a random range between 1 and 30.
         Debug.Log("Box collected!  Points Earned = " +  boxScore + ".");            // Debugs box score to make sure matches random int each time
-        currentScore += boxScore;                                                    // Adds box score to player score
-        Debug.Log("Player Score: " + currentScore + ".");                            // Debug player score
+        currentScore += boxScore;                                                   // Adds box score to player score
+        Debug.Log("Player Score: " + currentScore + ".");                           // Debug player score
 
         if (Boxes.oneCollected == true && !one)                                     // If box one is collected and one is false
         {
@@ -96,7 +109,7 @@ public class Player : MonoBehaviour
             // Debug updated player score
             Debug.Log("Box ONE has been collected FIRST.  +10 BONUS POINTS. Player Score: " + currentScore + ".");
         }
-        if(Boxes.boxCollected == 2 && order == 3 && correctBox)                     // If all of these are true/correct the second box has been chosen in the correct order. Do these things
+        if(Boxes.boxCollected == 2 && order == 3 && correctBox)                     // If all of these are true/correct the second box has been chosen in the correct order. Do these things...
         {
             currentXp += 10;                                                        // Add 10 XP
             currentScore += 20;                                                     // Twenty bonus points
@@ -104,7 +117,7 @@ public class Player : MonoBehaviour
             // Debug updated player score
             Debug.Log("Box TWO has been collected SECOND.  +20 BONUS POINTS. Player Score: " + currentScore + ".");
         }
-        if (Boxes.boxCollected == 3 && stillCorrectBox)                             // If these are true then the third has been collected in the correct order.  Do these things
+        if (Boxes.boxCollected == 3 && order == 6 && stillCorrectBox)                // If these are true then the third has been collected in the correct order.  Do these things...
         {
             currentXp += 15;                                                         // Add 15 XP
             currentScore += 30;                                                      // Thirty bonus points
@@ -135,21 +148,24 @@ public class Player : MonoBehaviour
             allScores += currentScore;                                                  // Adds playerScore to allScores tally before setting playerScore back to zero
             allXp += currentXp;                                                         // Adds xP to allXp tally before setting xP back to zero
             respawn = true;                                                             // Sets respawn to true
+            Respawn.respawnDelegates?.Invoke();                                         // If respawnDelegates from RESPAWN script is not null then invoke delegate functions
         }
         // if no lives left do this...
         if (playerDied && livesLeft <= 0) 
         { 
             respawn = false;                                                            // Do not respawn player has no lives left
+            Debug.Log(fullName + " DIED! you have " + livesLeft + " lives left.");                 // Debug no lives left
         }
     }
 
     /// <summary>
     /// Static public function that tells game the player died - to use across all scripts if necessary
     /// </summary>
-    public static void PlayerDied()
+    public void PlayerDied()
     {
         playerDied = true;                                                            // Player has died
-        playerLives--;                                                                // Subtracts one life from tally
+        playerLives--;                                                                // Subtracts one life from tall
+        AverageStats();
     }
 
     /// <summary>

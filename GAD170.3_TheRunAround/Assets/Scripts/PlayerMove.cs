@@ -89,4 +89,10 @@ public class PlayerMovement : MonoBehaviour
         // Finally, it applies that vector it just made to the character
         controller.Move(move * speed * Time.deltaTime + velocity * Time.deltaTime);
     }
+
+   /// <summary>
+   /// Reset gravity on respawn
+   /// </summary>
+    public void GravityRespawn()
+    { gravity = -20f; }
 }

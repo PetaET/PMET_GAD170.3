@@ -76,7 +76,7 @@ public class PickUps : MonoBehaviour
                 // Need to return gravity back to normal 
 
             }
-            ParticleSystem psFour = bOne.GetComponent<ParticleSystem>();                                        // Accesses the PARTICLE SYSTEM boom COMPONENT
+            ParticleSystem psFour = bTwo.GetComponent<ParticleSystem>();                                        // Accesses the PARTICLE SYSTEM boom COMPONENT
             if (psFour != null)                                                                                 // If it exists do this thing...
             {
                 psFour.Play(true);                                                                              // Play the particle system (settings defined in inspector)
