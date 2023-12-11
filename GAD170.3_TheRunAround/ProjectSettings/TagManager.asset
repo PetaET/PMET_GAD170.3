@@ -3,7 +3,23 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags: []
+  tags:
+  - one
+  - two
+  - three
+  - fourlocked
+  - fourunlocked
+  - pOne
+  - Red
+  - Blue
+  - Red1
+  - Red2
+  - boxThree
+  - boxOne
+  - boxTwo
+  - boxFour
+  - pTwo
+  - pThree
   layers:
   - Default
   - TransparentFX
